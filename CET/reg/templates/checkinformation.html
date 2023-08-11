@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .sidebar {
+            background-color: #355c7d;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 16px; /* 修改字体大小 */
+            margin-top: 75px; /* 向下移动的距离 */
+            border-radius: 10px; /* 圆角大小 */
+            width: 180px; /* 调整侧边栏的宽度 */
+             height: 80vh; /* 调整侧边栏的高度 */
+            margin-left: 8px; /* 向右移动的距离 */
+            border-radius: 0 10px 10px 0; /* 调整圆角的位置 */
+        }
+
+        .sidebar-title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar-username {
+            margin-bottom: 10px;
+            color: #d3d3d3;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .sidebar-options {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            font-size: 18px; /* 修改字体大小 */
+        }
+
+        .sidebar-option {
+            margin-bottom: 10px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            line-height: 2.5; /* 增大行距 */
+            align-items: center;
+            border-bottom: 1px solid #ccc; /* 添加底部边框线 */
+        }
+
+        .sidebar-option i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar-suboptions {
+            margin-left: 20px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .sidebar-suboption {
+            color: #d3d3d3;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-option.active .sidebar-suboptions {
+            display: block;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #355c7d;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .session-info1 {
+        margin-left: 250px; /* 向右偏移50像素 */
+    }
+    .session-info2 {
+        margin-left: 250px; /* 向右偏移50像素 */
+    }
+    </style>
+</head>
+<body>
+        <div class="sidebar">
+            <div class="sidebar-title">CET6考试</div>
+            <div class="sidebar-username">欢迎 {{ request.session.user_stu }} 访问</div>
+            <div class="sidebar-options">
+                <div class="sidebar-option" onclick="toggleSubMenu('userCenterSubMenu')">
+                    <i class="fas fa-user-circle"></i>用户中心
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div id="userCenterSubMenu" class="sidebar-suboptions">
+                    <div class="sidebar-suboption" onclick="location.href='/user/mod_info_stu'">修改个人信息</div>
+                    <div class="sidebar-suboption" onclick="location.href='/user/mod_password_stu'">修改密码</div>
+                    <div class="sidebar-suboption" onclick="location.href='/user/go_to_exam'">已报考的考试信息查询</div>
+                    <div class="sidebar-suboption" onclick="location.href='/user/stu_exam_grade'">历史考试成绩查询</div>
+                </div>
+                <div class="sidebar-option" onclick="location.href='/reg/reg_main/'">
+    
+                    <i class="fas fa-edit"></i>考试报名中心
+                </div>
+                <div class="sidebar-option" onclick="location.href='/exam/index'">
+                    <i class="fas fa-laptop"></i>线上考试平台
+                </div>
+                <div class="sidebar-option" onclick="location.href='/user/logout'">
+                    <i class="fas fa-sign-out-alt"></i>退出登录
+                </div>
+            </div>
+        </div>
+<ul class="session-info1">
+    {% for key, value in request.session.info.items %}
+        <li>{{ key }}: {{ value }}</li>
+    {% endfor %}
+</ul>
+<table class="session-info2">
+    {% for key, value in n1.items %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+
+<form method="post" action="{% url 'SelectSite' %}">
+    {% csrf_token %}
+    <button type="submit">确认信息</button>
+</form>
+    <script>
+        function toggleSubMenu(subMenuId) {
+            var subMenu = document.getElementById(subMenuId);
+            var icon = document.querySelector("[onclick=\"toggleSubMenu('" + subMenuId + "')\"] i");
+
+            if (subMenu.style.display === "none") {
+                subMenu.style.display = "block";
+                icon.classList.remove("fa-chevron-down");
+                icon.classList.add("fa-chevron-up");
+            } else {
+                subMenu.style.display = "none";
+                icon.classList.remove("fa-chevron-up");
+                icon.classList.add("fa-chevron-down");
+            }
+        }
+    </script>
+</body>
+</html>

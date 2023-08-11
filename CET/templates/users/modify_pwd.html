@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     {%load static%}
+    <title>修改密码</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group .readonly-field {
+            background-color: #f8f8f8;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group .error {
+            color: red;
+        }
+
+        .form-group .submit-button {
+            background-color: #355c7d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .form-group .submit-button:hover {
+            background-color: #24405c;
+        }
+
+        .slider-container {
+            position: relative;
+        }
+
+        .slider {
+            width: 100%;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-handle {
+            width: 40px;
+            height: 40px;
+            background-color: #355c7d;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        .slider-handle.dragging {
+            transition: none;
+        }
+
+        .slider-message {
+            margin-top: 10px;
+            text-align: center;
+            color: #1a5276;
+            font-weight: bold;
+        }
+
+        .slider-message.success {
+            color: green;
+        }
+
+        .alert-danger {
+            color: red;
+        }
+
+        .alert-success {
+            color: green;
+        }
+
+        .redirect-message {
+            margin-top: 10px;
+            text-align: center;
+            color: darkgray;
+        }
+    </style>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script src="{%static 'js/modifypwd.js' %}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>修改密码(学生)</h2>
+        {% if error_message %}
+            <div class="alert alert-danger">{{ error_message }}</div>
+        {% elif success_message %}
+            <div class="alert alert-success">{{ success_message }}</div>
+        {% endif %}
+
+
+
+        <form method="post" action="{% url 'user:modify' %}" id = "modify_form">
+            {% csrf_token %}
+            <input type="hidden" name="phone" value={{phone}}>
+            <div class="form-group">
+                <label for="new_password1">新密码:</label>
+                <input type="password" id="new_password1" name="new_password1" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password2">确认密码:</label>
+                <input type="password" id="new_password2" name="new_password2" required>
+            </div>
+            <div class="form-group">
+                <div class="slider-container">
+                    <div class="slider">
+                        <div class="slider-handle"></div>
+                    </div>
+                </div>
+                <div class="slider-message">请将滑块滑到最右端完成身份验证</div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="保存" class="submit-button">
+            </div>
+        </form>
+    </div>
+    <div class="redirect-message">成功修改密码后会跳转到登录界面。</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const slider = document.querySelector(".slider");
+            const handle = document.querySelector(".slider-handle");
+            const message = document.querySelector(".slider-message");
+
+            let isDragging = false;
+
+            handle.addEventListener("mousedown", startDragging);
+            handle.addEventListener("touchstart", startDragging);
+
+            function startDragging(event) {
+                event.preventDefault();
+                isDragging = true;
+
+                document.addEventListener("mousemove", dragHandle);
+                document.addEventListener("touchmove", dragHandle);
+                document.addEventListener("mouseup", stopDragging);
+                document.addEventListener("touchend", stopDragging);
+            }
+
+            function dragHandle(event) {
+                if (!isDragging) return;
+
+                const sliderRect = slider.getBoundingClientRect();
+                const handleRect = handle.getBoundingClientRect();
+                const sliderWidth = sliderRect.width - handleRect.width;
+                const eventX = event.type.startsWith("mouse") ? event.clientX : event.touches[0].clientX;
+                const positionX = eventX - sliderRect.left - handleRect.width / 2;
+
+                if (positionX < 0) {
+                    handle.style.left = "0";
+                } else if (positionX > sliderWidth) {
+                    handle.style.left = sliderWidth + "px";
+                    message.innerText = "您已成功完成验证";
+                    message.classList.add("success");
+                } else {
+                    handle.style.left = positionX + "px";
+                    message.innerText = "请将滑块滑到最右端完成身份验证";
+                    message.classList.remove("success");
+                }
+            }
+
+            function stopDragging() {
+                isDragging = false;
+
+                document.removeEventListener("mousemove", dragHandle);
+                document.removeEventListener("touchmove", dragHandle);
+                document.removeEventListener("mouseup", stopDragging);
+                document.removeEventListener("touchend", stopDragging);
+            }
+        });
+    </script>
+</body>
+</html>

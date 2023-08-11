@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <title>考试信息汇总</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .topbar {
+            background-color: rgba(47, 79, 79, 0.1);
+            height: 60px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .topbar-title {
+            font-family: "Arial Black", sans-serif;
+            font-size: 30px;
+            color: #355c7d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        td:nth-child(1) {
+            text-align: left;
+        }
+
+        .online-exam-link {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .online-exam-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <h1 class="topbar-title">您已报名的考试信息汇总表</h1>
+    </div>
+    <table>
+        <tr>
+            <th>考试名称</th>
+            <th>考试日期</th>
+            <th>考试时间</th>
+            <th>考试地点</th>
+            <th>考试人数</th>
+            <th>考试类型</th>
+            <th>考试状态</th>
+        </tr>
+        {% for exam in exams %}
+        <tr>
+            <td>{{ exam.name }}</td>
+            <td>{{ exam.date }}</td>
+            <td>{{ exam.start_time }} — {{ exam.end_time}}</td>
+            <td>{{ exam.place }}</td>
+            <td>{{ exam.max_students }}</td>
+            <td>{{ exam.is_online|yesno:"线上,线下" }}</td>
+            <td>
+                {% if exam.is_online and exam.is_beginning %}
+                    {% if not exam_arrangment.is_commit %}
+                        <a href="online/{{ exam.id }}" class="online-exam-link">线上正在考试</a>
+                    {% else %}
+                        您已完成线上考试
+                    {% endif %}
+                {% elif not exam.is_online and exam.is_beginning %}
+                    {% if not exam_arrangment.is_commit %}
+                        线下正在考试
+                    {% else %}
+                        您已完成线下考试
+                    {% endif %}
+                {% else %}
+                    考试还未开始
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+
+</html>

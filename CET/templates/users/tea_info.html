@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CET考试系统教师界面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .sidebar {
+            background-color: #355c7d;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 16px; /* 修改字体大小 */
+            margin-top: 75px; /* 向下移动的距离 */
+            border-radius: 10px; /* 圆角大小 */
+            width: 180px; /* 调整侧边栏的宽度 */
+            height: 80vh; /* 调整侧边栏的高度 */
+            margin-left: 8px; /* 向右移动的距离 */
+            border-radius: 0 10px 10px 0; /* 调整圆角的位置 */
+        }
+
+        .sidebar-title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar-username {
+            margin-bottom: 10px;
+            color: #d3d3d3;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .sidebar-options {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            font-size: 18px; /* 修改字体大小 */
+        }
+
+        .sidebar-option {
+            margin-bottom: 10px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            line-height: 2.5; /* 增大行距 */
+            align-items: center;
+            border-bottom: 1px solid #ccc; /* 添加底部边框线 */
+        }
+
+        .sidebar-option i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar-suboptions {
+            margin-left: 20px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .sidebar-suboption {
+            color: #d3d3d3;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-option.active .sidebar-suboptions {
+            display: block;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            color: #333;
+        }
+
+        .info-container {
+
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            font-family: Arial, sans-serif; /* 设置字体样式 */
+            color: #333; /* 设置字体颜色 */
+            margin-bottom: 20px; /* 修改行距为一倍 */
+
+        }
+
+        .info-label {
+            font-weight: bold;
+            font-size: 26px; /* 修改字体大小为三倍 */
+        }
+        .topbar {
+            background-color: rgba(47, 79, 79, 0.1); /* 修改为透明感的藏青色 */
+            height: 40px; /* 修改高度为40px */
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .topbar-title {
+            font-family: "Arial Black", sans-serif;
+            font-size: 30px;
+            color: #355c7d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 添加文字阴影效果 */
+        }
+        .info-items-container {
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #ccc; /* 添加边框 */
+            border-radius: 8px; /* 设置圆角 */
+            padding: 5px; /* 添加内边距，使内容与边框有间隔 */
+        }
+        .instructions {
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+        }
+
+        .instructions {
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+        font-size: 22px; /* 增大字体大小为18px */
+        color: #333;
+        text-align: left;
+        line-height: 1.5; /* 设置行高为1.5倍 */
+    }
+
+        .instructions p {
+        margin-bottom: 10px; /* 增加段落之间的间距 */
+    }
+
+        .instructions ul {
+        padding-left: 20px; /* 增加列表的左边距 */
+        margin-bottom: 10px; /* 增加列表之间的间距 */
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+         <h1 class="topbar-title">CET考试系统教师界面</h1>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-title">CET6考试</div>
+        <div class="sidebar-username">欢迎 {{ request.session.user_tea }} 访问</div>
+        <div class="sidebar-options">
+            <div class="sidebar-option" onclick="toggleSubMenu('userCenterSubMenu')">
+                <i class="fas fa-user-circle"></i>用户中心
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="userCenterSubMenu" class="sidebar-suboptions">
+                <div class="sidebar-suboption" onclick="location.href='/user/mod_info_tea'">修改个人信息</div>
+                <div class="sidebar-suboption" onclick="location.href='/user/mod_password_tea'">修改密码</div>
+            </div>
+
+            <div class="sidebar-option" onclick="location.href='/user/go_to_mark'">
+
+                <i class="fas fa-edit"></i>教师阅卷中心
+            </div>
+            <div class="sidebar-option" onclick="location.href='/user/logout_tea'">
+                <i class="fas fa-sign-out-alt"></i>退出登录
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>个人基本信息如下：</h1>
+
+        <div class="info-container">
+            <div class="info-items-container">
+                <div class="info-item">
+                    <span class="info-label">教师号：</span>
+                    <span class="info-value" style="font-size: 26px;">{{ info.id }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">姓名：</span>
+                    <span class="info-value" style="font-size: 26px;">{{ info.name}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">电话：</span>
+                    <span class="info-value" style="font-size: 26px;">{{ info.phone }}</span>
+                </div>
+            </div>
+            <div class="instructions">
+                <p>在线阅卷CET教师须知：</p>
+                <ul>
+                    <li>请确保您具备相关资格和授权，以进行在线阅卷工作。</li>
+                    <li>请仔细阅读考试题目和答案，严格按照评分标准进行打分。</li>
+                    <li>请保证评分的准确性和公正性，不得偏袒或歧视任何考生。</li>
+                    <li>请及时提交评分结果，确保评卷工作的及时性和效率。</li>
+                    <li>如有任何问题或疑虑，请及时与相关负责人或系统管理员联系。</li>
+                </ul>
+                <p>感谢您的配合和辛勤工作，祝您工作顺利！</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubMenu(subMenuId) {
+            var subMenu = document.getElementById(subMenuId);
+            var icon = document.querySelector("[onclick=\"toggleSubMenu('" + subMenuId + "')\"] i");
+
+            if (subMenu.style.display === "none") {
+                subMenu.style.display = "block";
+                icon.classList.remove("fa-chevron-down");
+                icon.classList.add("fa-chevron-up");
+            } else {
+                subMenu.style.display = "none";
+                icon.classList.remove("fa-chevron-up");
+                icon.classList.add("fa-chevron-down");
+            }
+        }
+    </script>
+</body>
+
+</html>

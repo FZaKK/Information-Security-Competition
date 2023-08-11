@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>修改个人信息</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group .readonly-field {
+            background-color: #f8f8f8;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group .error {
+            color: red;
+        }
+
+        .form-group .submit-button {
+            background-color: #355c7d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .form-group .submit-button:hover {
+            background-color: #24405c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>修改个人信息</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_number">教师号:</label>
+                <input type="text" id="id_number" class="readonly-field" value="{{ teacher.id }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="name">姓名:</label>
+                <input type="text" id="name" name="name" value="{{ form.name.value }}">
+                {% if form.name.errors %}
+                <p class="error">{{ form.name.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="phone">电话:</label>
+                <input type="text" id="phone" name="phone" value="{{ form.phone.value }}">
+                {% if form.phone.errors %}
+                <p class="error">{{ form.phone.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="保存" class="submit-button">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

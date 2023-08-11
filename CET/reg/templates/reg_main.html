@@ -1,0 +1,262 @@
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>CET考试系统学生界面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* background-image: url('your-background-image.jpg');  */
+            background-size: cover;
+            background-position: center;
+        }
+        button {
+            background-color: #355c7d;
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            cursor: pointer;
+            font-size: 32px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #355c7d;
+        }
+        .sidebar {
+            background-color: #355c7d;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 16px; /* 修改字体大小 */
+            margin-top: 75px; /* 向下移动的距离 */
+            border-radius: 10px; /* 圆角大小 */
+            width: 180px; /* 调整侧边栏的宽度 */
+             height: 80vh; /* 调整侧边栏的高度 */
+            margin-left: 8px; /* 向右移动的距离 */
+            border-radius: 0 10px 10px 0; /* 调整圆角的位置 */
+        }
+
+        .sidebar-title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar-username {
+            margin-bottom: 10px;
+            color: #d3d3d3;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .sidebar-options {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            font-size: 18px; /* 修改字体大小 */
+        }
+
+        .sidebar-option {
+            margin-bottom: 10px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            line-height: 2.5; /* 增大行距 */
+            align-items: center;
+            border-bottom: 1px solid #ccc; /* 添加底部边框线 */
+        }
+
+        .sidebar-option i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar-suboptions {
+            margin-left: 20px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .sidebar-suboption {
+            color: #d3d3d3;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-option.active .sidebar-suboptions {
+            display: block;
+        }
+
+        .container {
+            margin-top: 150px;
+            margin-left:460px;
+            padding: 20px;
+            color: #333;
+        }
+
+        .info-container {
+            /* background-image: url('your-info-background-image.jpg');  */
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            font-family: Arial, sans-serif; /* 设置字体样式 */
+            color: #333; /* 设置字体颜色 */
+            margin-bottom: 20px; /* 修改行距为一倍 */
+
+        }
+
+        .info-label {
+            font-weight: bold;
+            font-size: 26px; /* 修改字体大小为三倍 */
+        }
+        .topbar {
+            background-color: rgba(47, 79, 79, 0.1); /* 修改为透明感的藏青色 */
+            height: 40px; /* 修改高度为40px */
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .topbar-title {
+            font-family: "Arial Black", sans-serif;
+            font-size: 30px;
+            color: #355c7d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 添加文字阴影效果 */
+        }
+        .info-items-container {
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border: 1px solid #ccc; /* 添加边框 */
+            border-radius: 8px; /* 设置圆角 */
+            padding: 5px; /* 添加内边距，使内容与边框有间隔 */
+        }
+        .box-container {
+             display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 200px; /* 向右移动 50px */
+        }
+        .box {
+            width: calc(33.33% - 20px);
+            padding: 20px;
+            background-color: #355c7d;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .box:hover {
+            background-color: #1a3648;
+        }
+
+        .box-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .box-description {
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+         <h1 class="topbar-title">CET考试系统学生界面</h1>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-title">CET6考试</div>
+        <div class="sidebar-username">欢迎 {{ request.session.user_stu }} 访问</div>
+        <div class="sidebar-options">
+            <div class="sidebar-option" onclick="toggleSubMenu('userCenterSubMenu')">
+                <i class="fas fa-user-circle"></i>用户中心
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div id="userCenterSubMenu" class="sidebar-suboptions">
+                <div class="sidebar-suboption" onclick="location.href='/user/mod_info_stu'">修改个人信息</div>
+                <div class="sidebar-suboption" onclick="location.href='/user/mod_password_stu'">修改密码</div>
+                <div class="sidebar-suboption" onclick="location.href='/user/go_to_exam'">已报考的考试信息查询</div>
+                <div class="sidebar-suboption" onclick="location.href='/user/stu_exam_grade'">历史考试成绩查询</div>
+            </div>
+            <div class="sidebar-option" onclick="location.href='/reg/reg_main/'">
+
+                <i class="fas fa-edit"></i>考试报名中心
+            </div>
+            <div class="sidebar-option" onclick="location.href='/exam/index'">
+
+                <i class="fas fa-laptop"></i>线上考试
+            </div>
+            <div class="sidebar-option" onclick="location.href='/user/logout'">
+                <i class="fas fa-sign-out-alt"></i>退出登录
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    {% if request.cookie.user_id %}
+        <div class="user-info">
+            {{ request.cookie.user_id }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'ConfirmRegState' %}">
+        {% csrf_token %}
+        <button type="submit">报名六级笔试</button>
+    </form>
+    
+    <form method="post" action="{% url 'CheckOrder' %}">
+        {% csrf_token %}
+        <button type="submit">查看我的订单</button>
+    </form>
+</div>
+    <div class="box-container">
+            <div class="box" onclick="location.href='1.pdf'">
+                <h2 class="box-title">成绩核查</h2>
+                <p class="box-description">查询和核对考试成绩</p>
+            </div>
+            <div class="box" onclick="location.href='2.pdf'">
+                <h2 class="box-title">成绩证明</h2>
+                <p class="box-description">申请打印成绩证明</p>
+            </div>
+            <div class="box" onclick="location.href='examiee.pdf'">
+                <h2 class="box-title">考生须知</h2>
+                <p class="box-description">查看考试相关须知</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleSubMenu(subMenuId) {
+            var subMenu = document.getElementById(subMenuId);
+            var icon = document.querySelector("[onclick=\"toggleSubMenu('" + subMenuId + "')\"] i");
+
+            if (subMenu.style.display === "none") {
+                subMenu.style.display = "block";
+                icon.classList.remove("fa-chevron-down");
+                icon.classList.add("fa-chevron-up");
+            } else {
+                subMenu.style.display = "none";
+                icon.classList.remove("fa-chevron-up");
+                icon.classList.add("fa-chevron-down");
+            }
+        }
+    </script>
+</body>
+
+</html>

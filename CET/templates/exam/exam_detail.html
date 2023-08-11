@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <title>在线考试系统</title>
+
+    <style>
+    body {
+      margin-left: 5%;
+      margin-right: 5%;
+
+      border-style: solid; /* 设置边框样式为实线 */
+      border-width: 5px;
+      border-color: #355c7d; /* 设置边框颜色为 #355c7d */
+      padding-left:10px ;
+      padding-right: 10px;
+
+    }
+
+        .title {
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #eaeded;
+            padding: 10px;
+            z-index: 1;
+
+        }
+
+
+        .title-text {
+            display: inline-block;
+            font-family: "Arial Black", sans-serif;
+            font-size: 30px;
+            color: #355c7d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .content {
+            padding-top: 70px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .question-label {
+            font-weight: bold;
+        }
+
+        .question-content {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+
+        .essay-textarea {
+            width: 100%;
+            height: 100px;
+        }
+
+        .section-title {
+            font-weight: bold;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        #timer {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: red;
+            margin-top: 5px;
+        }
+
+        #submit-button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #timeout-modal {
+            display: none;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+{%load static%}
+
+<body>
+    <div class="title">
+        <span class="title-text">在线考试系统</span>
+        <div id="timer">
+            <img src="{% static 'clock_icon.png'%}" alt="timer-clock-icon" style="height: 16px;">
+            <span id="minutes">--</span>:<span id="seconds">--</span>
+        </div>
+    </div>
+    <div class="content">
+
+        <h3 class="section-title">一、选择题</h3>
+        {% if question0s %}
+            {% for question0 in question0s %}
+            <div class="question">
+                <label class="question-label">{{ forloop.counter }}.选择题 {{ forloop.counter }}</label>
+                <div class="question-content">
+                    <label>{{ question0.1 }}.</label>
+                </div>
+                <div class="options">
+                    <input type="text" name="question{{ forloop.counter }},{{question0.0}}" placeholder="输入选项字母作为答案">
+                </div>
+            </div>
+            {% endfor %}
+
+        {% else %}
+        <div class="question">
+            <label class="question-label">没有选择题!</label>
+        </div>
+        {% endif %}
+
+
+
+        <h3 class="section-title">二、非选择题</h3>
+        {% if question1s %}
+            {% for question1 in question1s %}
+            <div class="question">
+                <label class="question-label">{{ forloop.counter }}.非选择题 {{ forloop.counter }}</label>
+                <div class="question-content">
+                    <label>{{ question1.1 }}</label>
+                </div>
+                <textarea name="question{{ forloop.counter }},{{question1.0}}" rows="6" class="essay-textarea" placeholder="作答区域"></textarea>
+            </div>
+            {% endfor %}
+            
+        {% else %}
+        <div class="question">
+            <label class="question-label">没有非选择题!</label>
+        </div>
+        {% endif %}
+
+        <div id="timeout-modal">已收卷</div>
+        <div class="button-container">
+            <button id="submit-button" type="button">提交</button>
+        </div>
+
+    </div>
+
+    <script>
+        var minutes = 100;
+        var seconds = 0;
+        var timerInterval;
+        var submitButton = document.getElementById('submit-button');
+
+        submitButton.addEventListener('click', function () {
+            clearInterval(timerInterval);
+            submitExam();
+        });
+
+        function updateTimer() {
+            seconds--;
+
+            if (seconds < 0) {
+                minutes--;
+                seconds = 59;
+            }
+
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            if (minutes === 0 && seconds === 0) {
+                clearInterval(timerInterval);
+                submitExam();
+            }
+        }
+        timerInterval = setInterval(updateTimer, 1000);
+
+        function submitExam() {
+            submitButton.disabled = true;
+            submitButton.textContent = '已提交';
+            document.getElementById('timeout-modal').style.display = 'block';
+
+            // 获取答题结果数据
+            var formData = {};
+            var time=100*60-minutes*60-seconds;
+            var time_use='用时:'+(Math.floor(time/60)).toString()+'分'+(time%60).toString()+'秒';
+            
+            var questionInputs = document.querySelectorAll('input[name^="question"]');
+            for (var i = 0; i < questionInputs.length; i++) {
+                console.log(questionInputs[i].name);
+                console.log(questionInputs[i].value);
+                var name=questionInputs[i].name;
+                var match=name.match(/(\d+)$/);
+                questionInputs[i].name=match[1];
+                formData[questionInputs[i].name]=questionInputs[i].value;
+            }
+            var essayInputs = document.querySelectorAll('textarea[name^="question"]');
+            for (var j = 0; j < essayInputs.length; j++) {
+                console.log(essayInputs[j].name);
+                console.log(essayInputs[j].value);
+                var name=essayInputs[j].name;
+                var match=name.match(/(\d+)$/);
+                essayInputs[j].name=match[1];
+                formData[essayInputs[j].name]=essayInputs[j].value;
+            }
+
+              // 获取CSRF令牌的值
+            var csrfToken = getCookie('csrftoken');
+
+            // 构建请求头
+            var headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('X-CSRFToken', csrfToken);
+
+            // 发送POST请求
+            fetch('/exam/online/submitted', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(formData),
+            })
+            .then(response => {
+                // 处理响应
+                if (response.ok) {
+                    // 提交成功
+                    console.log('提交成功！'+time_use);
+                    setTimeout(function() {
+                        alert('提交成功\n'+time_use)
+                        window.location.href='/user/stu_all';
+                    }, 1000); // 延迟1秒
+
+                } else {
+                    // 提交失败
+                    console.log('提交失败！');
+                    alert('提交失败\n')
+                    window.location.href='/user/stu_all';
+                }
+            })
+            .catch(error => {
+                console.error('发生错误:', error);
+            });
+
+        }
+
+
+        // 获取指定名称的cookie的值
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+            }
+        }
+        return cookieValue;
+        }
+        setTimeout(function () {
+            clearInterval(timerInterval);
+            submitExam();
+        }, (100 * 60 * 1000));
+    </script>
+</body>
+
+</html>

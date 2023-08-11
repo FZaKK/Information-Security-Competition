@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+  <title>支付界面</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #355c7d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 500px;
+        }
+
+        button:hover {
+            background-color: #355c7d;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar-title {
+            font-family: "Arial Black", sans-serif;
+            font-size: 30px;
+            color: #355c7d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .img {
+            margin-left: auto;
+            margin-right: auto;
+        }
+  </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <h1 class="topbar-title">支付订单</h1>
+    </div>
+    <img src="{% static 'QRcode.png' %}" alt="支付图片" class="img">
+    <form method="post" action="{% url 'pay' %}">
+        {% csrf_token %}
+        <input type="hidden" name="order" value="{{ n1 }}">
+        <button type="submit">支付完成</button>
+    </form>
+</body>
+</html>

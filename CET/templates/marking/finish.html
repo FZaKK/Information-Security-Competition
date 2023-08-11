@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <title>阅卷系统</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        div {
+            /*水平居中*/
+            text-align: center;
+        }
+    </style>
+
+    </head>
+
+    <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+            <h1 class="display-4 text-center">{{finish}}</h1>
+            <p class="lead text-center">
+                正在核查......</p>
+            </div>
+        </div>
+
+    
+    <div class="card text-center">
+        <div class="card-header">
+            您的批改结果：
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">题目一：  {{ans0}}分</li>
+          <li class="list-group-item">题目二：  {{ans1}}分</li>
+          <li class="list-group-item">题目三：  {{ans2}}分</li>
+        </ul>
+        <div class="card-footer">
+           请老师核查。
+        </div>
+      </div>
+
+    
+    <div style="float:right" class="btn-group" role="group" aria-label="Basic outlined example">
+        <a href="/marking/index"><button  type="button" 
+            class="btn btn-outline-primary">重新批改</button></a>
+        <a href="/user/index"><button type="button" 
+            class="btn btn-outline-primary">退出</button></a>
+    </div>
+    
+
+    </body>
+</html>

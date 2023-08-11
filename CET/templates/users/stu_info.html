@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: lightgray;
+            padding: 10px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>用户中心</h1>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+               <li>
+                    <form method="post" action="mod_info_stu">
+                        {% csrf_token %}
+                        <button type="submit">修改个人信息</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" action="code_mod">
+                        {% csrf_token %}
+                        <button type="submit">修改密码</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" action="exam_info">
+                        {% csrf_token %}
+                        <button type="submit">已报考的考试信息查询</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" action="history_exam">
+                        {% csrf_token %}
+                        <button type="submit">历史考试</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>个人信息</h2>
+            <div class="准考证号">
+            准考证号：{{info.id}}
+        </div>
+        <div class="身份证号 ">
+            身份证号：{{info.self_number}}
+        </div>
+        <div class="名字">
+            名字：{{info.name}}
+        </div>
+        <div class="学校">
+            学校：{{info.school}}
+        </div>
+        <div class="电话">
+            电话：{{info.phone}}
+        </div>
+        <div class="电子邮箱">
+            电子邮箱：{{info.email}}
+        </div>
+        </div>
+    </div>
+</body>
+</html>

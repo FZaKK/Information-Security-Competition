@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Items</title>
+</head>
+<body>
+    <h3>reg test template</h3>
+    <ul>
+        {% for item in items %}
+            <li>{{ item.id }} - {{ item.name }} - {{ item.test }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Add Item Below</h3>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name"><br>
+        <label for="test">Test:</label>
+        <input type="text" name="test" id="test"><br>
+        <input type="submit" value="Add Item">
+    </form>
+    
+</body>
+</html>

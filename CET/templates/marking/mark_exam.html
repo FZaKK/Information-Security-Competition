@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>阅卷系统</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 text-center">阅卷系统</h1>
+            <p class="lead text-center">
+                正在阅卷中......</p>
+        </div>
+    </div>
+    <div class="container">
+
+
+        <form action="finish/" method="post">
+            {% for record in record0_list %}
+            <div class="card border-secondary text-center ">
+                <div class="card-header">
+                    选择题{{ forloop.counter }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ record.question_id.question }}</h5>
+                    <p class="card-text">学生答案： {{ record.stu_answer }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    请判断学生作答情况:<br>
+                    <textarea name="mark{{ forloop.counter }},{{record.id}}" rows="1" class="essay-textarea"
+                        placeholder="请输入阅卷分数">0</textarea>
+                </div>
+            </div>
+            <br></br>
+            {% endfor %}
+            {% for record in record1_list %}
+            <div class="card border-secondary text-center ">
+                <div class="card-header">
+                    非选择题{{ forloop.counter }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ record.question_id.question }}</h5>
+                    <p class="card-text">学生答案： {{ record.stu_answer }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    请判断学生作答情况:<br>
+                    <textarea name="mark{{ forloop.counter }},{{record.id}}" rows="1" class="essay-textarea"
+                        placeholder="请输入阅卷分数">0</textarea>
+                </div>
+            </div>
+            <br></br>
+            {% endfor %}
+
+            <div class="d-grid gap-2">
+                <input id="submit-button" class="btn btn-secondary" type="submit" value="提交">
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        var submitButton = document.getElementById('submit-button');
+
+        submitButton.addEventListener('click', function () {
+            submitMark();
+        });
+
+
+        function submitMark() {
+            submitButton.disabled = true;
+            submitButton.textContent = '已提交';
+
+            // 获取阅卷结果数据
+            var formData = {};
+
+            var scoreInputs = document.querySelectorAll('textarea[name^="mark"]');
+            for (var j = 0; j < scoreInputs.length; j++) {
+                console.log(scoreInputs[j].name);
+                console.log(scoreInputs[j].value);
+                var name = scoreInputs[j].name;
+                var match = name.match(/(\d+)$/);
+                scoreInputs[j].name = match[1];
+                console.log(scoreInputs[j].name);
+                formData[scoreInputs[j].name] = scoreInputs[j].value;
+            }
+
+            // 获取CSRF令牌的值
+            var csrfToken = getCookie('csrftoken');
+
+            // 构建请求头
+            var headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('X-CSRFToken', csrfToken);
+
+            // 发送POST请求
+            fetch('/marking/mark_exam/finish/', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(formData),
+            })
+                .then(response => {
+                    // 处理响应
+                    if (response.ok) {
+                        // 提交成功
+                        console.log('提交成功！');
+                        alert('提交成功\n')
+                        window.location.href = '/user/tea_info';
+                    } else {
+                        // 提交失败
+                        console.log('提交失败！');
+                        alert('提交失败\n')
+                        window.location.href = '/marking/';
+                    }
+                })
+                .catch(error => {
+                    console.error('发生错误:', error);
+                });
+
+        }
+
+
+        // 获取指定名称的cookie的值
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+    </script>
+</body>
+
+</html>

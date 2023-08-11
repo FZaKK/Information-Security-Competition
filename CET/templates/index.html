@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon -->
+    <link rel="icon"
+        href="https://gsp0.baidu.com/5aAHeD3nKhI2p27j8IqW0jdnxx1xbK/tb/editor/images/client/image_emoticon1.png"
+        type="image/x-icon">
+
+    {%load static%}
+
+    <title>CET6-报考系统</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "bg3.png" %}');
+            background-size: cover;
+			background-repeat: no-repeat;
+			/* background-position: center center; */
+            /* background: linear-gradient(to right, #e664e0, #9198e5, #9198e5, #6482e6); */
+        }
+
+        .background {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .text-colorful {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #c8910f, #00bfff, #1e90ff, #980dad);
+            /* font-size: 20px;
+            font-weight: bolder; */
+        }
+
+        .title-hello {
+            font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+            font-size: 4rem;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff, 0 0 50px #ffffff, 0 0 60px #ffffff, 0 0 70px #ffffff;
+        }
+
+    </style>
+
+    <!-- 新 Bootstrap5 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+    <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container text-center  pt-5">
+        <h1 class="title-hello"> 欢迎来到 CET6-报考系统</h1>
+    </div>
+
+    <div name="the-body"
+        class="full-page d-flex justify-content-center align-items-center position-absolute top-0 start-0 bottom-0 end-0 ">
+        <div class="container d-flex justify-content-center">
+            <div class="row flex-fill align-self-center">
+                <div class="col-md-4">
+                    <a href="user/">
+                        <div class="card border-0 rounded-3 shadow-lg" style="background: rgba(255, 255, 255, 0.15);">
+                            <!-- <img src="image1.jpg" class="card-img" alt="..."> -->
+                            <svg t="1685193908383" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="1254" width="200" height="200">
+                                <path
+                                    d="M0 0m256 0l512 0q256 0 256 256l0 512q0 256-256 256l-512 0q-256 0-256-256l0-512q0-256 256-256Z"
+                                    fill="#000000" fill-opacity="0" p-id="1255"></path>
+                                <path
+                                    d="M358.4 785.92V551.36c0-21.568 17.152-39.04 38.272-39.04h230.016c21.12 0 38.4 17.472 38.4 39.04v234.56h114.944V396.032L512.064 244.16l-268.736 152.32v389.44H358.4zM166.592 434.24a38.784 38.784 0 0 1-37.376-29.248 39.68 39.68 0 0 1 18.176-44.288l345.088-195.456a37.76 37.76 0 0 1 38.336 0l344.96 195.392a39.424 39.424 0 0 1 18.88 44.416 38.528 38.528 0 0 1-38.016 29.056v390.784c0 21.632-17.152 39.104-38.272 39.104H205.056a38.016 38.016 0 0 1-27.136-11.456 39.424 39.424 0 0 1-11.264-27.648V434.176v0.064z m268.352 351.68h153.344V590.464H435.008v195.456z"
+                                    fill="#000000" fill-opacity=".88" p-id="1256"></path>
+                            </svg>
+                            <div class="card-img-overlay d-flex flex-column justify-content-center align-items-end">
+                                <img src="https://gsp0.baidu.com/5aAHeD3nKhI2p27j8IqW0jdnxx1xbK/tb/editor/images/client/image_emoticon1.png" alt="" width="40" height="40">
+                                <h2 class="card-title text-colorful  display-6 fw-bold">用户登录</h2>
+                                <p class="card-text text-dark opacity-90">点击进入用户登录页面</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="user/">
+                        <div class="card  border-0 rounded-3 shadow-lg "
+                            style="background: rgba(255, 255, 255, 0.1);">
+                            <svg t="1685194089894" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="1398" width="200" height="200">
+                                <path
+                                    d="M682.688 384H341.312a42.688 42.688 0 0 1 0-85.312h341.376a42.688 42.688 0 0 1 0 85.312z m-341.376 341.312a42.688 42.688 0 0 1-42.624-42.624V512A42.688 42.688 0 1 1 384 512v170.688a42.688 42.688 0 0 1-42.688 42.624z m170.688 0a42.688 42.688 0 0 1-42.688-42.624V512a42.688 42.688 0 0 1 85.376 0v170.688a42.688 42.688 0 0 1-42.688 42.624z m170.688 0a42.688 42.688 0 0 1-42.688-42.624V512a42.688 42.688 0 1 1 85.312 0v170.688a42.688 42.688 0 0 1-42.624 42.624z m128 170.688H213.312A85.312 85.312 0 0 1 128 810.688V213.312C128 166.208 166.208 128 213.312 128h597.376C857.792 128 896 166.208 896 213.312v597.376c0 47.104-38.208 85.312-85.312 85.312zM213.312 213.312v597.376h597.376V213.312H213.312z"
+                                    fill="#000000" fill-opacity=".88" p-id="1399"></path>
+                            </svg>
+                            <div class="card-img-overlay d-flex flex-column justify-content-center align-items-end">
+                                <img src="https://gsp0.baidu.com/5aAHeD3nKhI2p27j8IqW0jdnxx1xbK/tb/editor/images/client/image_emoticon9.png" alt="" width="40" height="40">
+                                <span class="card-title text-colorful  display-6 fw-bold">成绩查询</span>
+                                <p class="card-text text-dark opacity-75">点击进入查询页面</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="./admin">
+                        <div class="card  border-0 rounded-3 shadow-lg"
+                            style="background: rgba(255, 255, 255, 0.2);">
+                            <svg t="1685196361298" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="1539" width="200" height="200">
+                                <path
+                                    d="M704 513.088a39.04 39.04 0 0 1 42.688 0l128 76.16c12.8 8.448 21.312 21.12 21.312 38.08v148.096a44.352 44.352 0 0 1-21.312 38.08l-128 76.16a39.04 39.04 0 0 1-42.688 0l-128-76.16a44.352 44.352 0 0 1-21.312-38.08V627.328c0-16.96 8.512-29.632 21.312-38.08l128-76.16zM426.688 593.472c25.6 0 42.624 16.896 42.624 42.24 0 21.184-17.024 38.144-38.4 42.368H256c-21.312 0-38.4 16.96-42.688 38.08v88.896h256c21.376 0 38.4 16.896 42.688 38.08v4.224c0 21.12-17.088 38.08-38.4 42.24H170.688c-21.376 0-38.4-16.896-42.688-38.016v-131.2c0-67.712 51.2-122.688 119.488-126.912h179.2z m298.624 8.448L640 652.672v101.568l85.312 50.816 85.376-50.816v-101.568l-85.376-50.752zM512 551.168c-93.888 0-170.688-76.16-170.688-169.28V297.28C341.312 204.16 418.112 128 512 128c93.888 0 170.688 76.16 170.688 169.28v84.608c0 93.056-76.8 169.28-170.688 169.28z m0-338.56c-46.912 0-85.312 38.08-85.312 84.672v84.608c0 46.528 38.4 84.608 85.312 84.608s85.312-38.08 85.312-84.608V297.28c0-46.592-38.4-84.672-85.312-84.672z"
+                                    fill="#000000" fill-opacity=".88" p-id="1540"></path>
+                            </svg>
+                            <div class="card-img-overlay d-flex flex-column justify-content-center align-items-end">
+                                <img src="https://gsp0.baidu.com/5aAHeD3nKhI2p27j8IqW0jdnxx1xbK/tb/editor/images/client/image_emoticon22.png" alt="" width="40" height="40">
+                                <h2 class="card-title text-colorful  display-6 fw-bold">管理登录</h2>
+                                <p class="card-text text-dark opacity-75">点击进入管理员页面</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- group info -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div class="card" style="width: 15rem; opacity: 0.7;">
+            <div class="card-body">
+                <p class="card-title d-flex justify-content-between align-items-center">
+                    <span class="fs-5 fw-bold">Members</span>
+                    <a href="https://github.com/achdu0000/SoftwareEngineering/">
+                        <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle">
+                            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+                        </svg>
+                    </a>
+                </p>
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>achdu0000</td>
+                            <td>ericjuice</td>
+                        </tr>
+                        <tr>
+                            <td>nkudym</td>
+                            <td>this450</td>
+                        </tr>
+                        <tr>
+                            <td>hiahiahia0-0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 以下是固定的，不动 -->
+    <canvas class="background"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+    <script>
+
+        window.onload = function () {
+            Particles.init({
+                selector: '.background',
+                color: '#00ffff',
+                maxParticles: 100,
+                connectParticles: true,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        options: {
+                            maxParticles: 80
+                        }
+                    }, {
+                        breakpoint: 375,
+                        options: {
+                            maxParticles: 50
+                        }
+                    }
+                ]
+            });
+        };
+    </script>
+</body>
+
+</html>

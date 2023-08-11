@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+</head>
+<body>
+{% if request.session.info %}
+    <div style="position:absolute; top:0; right:0;">
+        {{ request.session.info.id }}
+    </div>
+{% endif %}
+
+<form method="post" action="{% url 'ConfirmRegState' %}">
+    {% csrf_token %}
+    <button type="submit">报名六级笔试</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>后台题库和试卷管理页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- 顶部导航栏 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">后台题库和试卷管理</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#upload_que">上传试题</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#upload_paper">上传试卷</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#manage_exam">管理考试</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- 上传试题文件部分 -->
+        <div class="row mt-3" id="upload_que">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        上传试题: 上传至题库
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="file-input" class="form-label">
+                                    文件格式: .csv文件
+                                    <br>
+                                    属性列: [Type:int,Question:string,Answer:string]
+                                </label>
+                                {% csrf_token %}
+                                <input type="file" name="my-file" class="form-control" id="file-input" accept=".csv">
+                                <input name = "manage-type" value = "gen-que" type = "hidden">
+                            </div>
+                            <button type="submit" class="btn btn-secondary" >上传</button>
+                            <font color="red">
+                                {{ ret_msg_q }}
+                            </font>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 上传试卷文件部分 -->
+        <div class="row mt-3" id="upload_paper">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        上传试卷: 上传试题集并自动生成试卷
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="file-input1" class="form-label">
+                                    文件格式: .csv文件
+                                    <br>
+                                    属性列: [Type:int,Question:string,Answer:string]
+                                </label>
+                                {% csrf_token %}
+                                <input type="file" name="my-file" class="form-control" id="file-input1" accept=".csv">
+                                <input name = "manage-type" value = "gen-paper" type = "hidden">
+                            </div>
+                            <button type="submit" class="btn btn-secondary" >上传</button>
+                            <font color="red">
+                                {{ ret_msg_p }}
+                            </font>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 管理考试部分 -->
+        <div class="row mt-3" id="manage_exam">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        管理考试
+                    </div>
+                    <div class="card-body">
+                        请前往考试管理模块管理考试
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 管理试卷部分 -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

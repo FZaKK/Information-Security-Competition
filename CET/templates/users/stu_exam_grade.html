@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <title>考试成绩汇总</title>
+    <style>
+        .title {
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">您已考试的成绩汇总表</h1>
+    <table>
+        <tr>
+            <th>考试编号</th>
+            <th>考试分数</th>
+        </tr>
+        {% for s in scores %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.score }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
