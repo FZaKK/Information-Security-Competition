@@ -5,6 +5,7 @@ import hashlib
 from decimal import Decimal
 from itertools import combinations
 from datetime import datetime
+import time
 
 
 FIELD_SIZE = 10**5
@@ -104,7 +105,7 @@ def generate_webserver_shares(n, t, org_password):
     # 这里我们需要进行shuffle
     random.seed(random_seed)
     min_value = 0
-    max_value = 12
+    max_value = len(org_password)
     random_sequence = [random.randint(min_value, max_value) for _ in range(random_sequence_length)]
     print('shuffle pos', random_sequence)
     for index in range(n):
@@ -121,12 +122,12 @@ def generate_webserver_shares(n, t, org_password):
 
 
 # 随机抽取三台服务器上的秘密份额
-def reconstruct_webserver_secret(webserver_ss_list, random_sequence):
+def reconstruct_webserver_secret(webserver_ss_list, random_sequence, max_v):
     reveal_list = [webserver_ss_list[i] for i in random_sequence]
     # 重新生成随机序列，避免通信传回所有的秘密份额
     random.seed(random_seed)
     min_value = 0
-    max_value = 12
+    max_value = max_v
     pos_random_sequence = [random.randint(min_value, max_value) for _ in range(random_sequence_length)]
     # print('111', pos_random_sequence)
 
@@ -169,7 +170,7 @@ def webserver_selfcheck(n, t, webserver_ss_list, org_password):
     success_tuple = ()
     for test in permutations:
         check_seq = list(test)
-        temp = reconstruct_webserver_secret(webserver_ss_list, check_seq)
+        temp = reconstruct_webserver_secret(webserver_ss_list, check_seq, len(org_password))
         if temp == org_password:
             success_tuple = test
             break
@@ -192,7 +193,7 @@ def webserver_selfcheck(n, t, webserver_ss_list, org_password):
         print('the base node list: ', base_list)
         base_list.append(node)
         # 开始恢复secret
-        temp = reconstruct_webserver_secret(webserver_ss_list, base_list)
+        temp = reconstruct_webserver_secret(webserver_ss_list, base_list, len(org_password))
         if temp == org_password:
             print('node ', node, ' Not Hijacked')
         else:
@@ -223,16 +224,30 @@ if __name__ == '__main__':
     print('-----------------------------------------------------------\n\n')
 
 
+    # 记录开始时间
+    start_time = time.time()
+
+
+
     # 现在加入类似于hash的node节点标记
-    org_password = [102, 122, 107, 49, 50, 51, 52, 53, 54, 78, 102, 1234]
+    # org_password = [102, 122, 107, 49, 50, 51, 52, 53, 54, 78, 102, 1234]
+    org_password = [102, 122, 107, 49]
     print('org_password: ', org_password)
     webserver_ss_list = generate_webserver_shares(n, t, org_password)
 
     # 随机抽取三份来做秘密重构[1, 2, 3]
     random_sequence = random.sample(range(n), t)
     print('random sequence: ', random_sequence)
-    reveal_password = reconstruct_webserver_secret(webserver_ss_list, random_sequence)
+    reveal_password = reconstruct_webserver_secret(webserver_ss_list, random_sequence, len(org_password))
     print('the reveal password: ', reveal_password)
+
+
+    # 记录结束时间
+    end_time = time.time()
+    # 计算时间差
+    run_time = end_time - start_time
+    print(f"方案计算时间：{run_time:.4f} 秒")
+
     print('-----------------------------------------------------------\n\n')
 
 
@@ -258,7 +273,7 @@ if __name__ == '__main__':
         webserver_ss_list[node] = Hijacked_list
 
     reveal_seq = [0, 1, 2]
-    test_password = reconstruct_webserver_secret(webserver_ss_list, reveal_seq)
+    test_password = reconstruct_webserver_secret(webserver_ss_list, reveal_seq, len(org_password))
     # 测试输出错误信息
     if test_password == org_password:
         print('Successfully verified!!!')
